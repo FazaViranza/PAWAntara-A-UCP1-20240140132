@@ -9,8 +9,10 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-    res.send("Server Running");
+    res.render("home");
 });
+
+
 
 app.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
