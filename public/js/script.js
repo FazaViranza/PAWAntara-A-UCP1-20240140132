@@ -1,8 +1,16 @@
-const toggle = document.querySelector(".menu-toggle");
-const menu = document.querySelector("nav ul");
+const toggle = document.getElementById("navToggle");
+const menu = document.getElementById("navMenu");
 
 if (toggle && menu) {
+
     toggle.addEventListener("click", () => {
+
         menu.classList.toggle("active");
+
+        const expanded = menu.classList.contains("active");
+
+        toggle.setAttribute("aria-expanded", expanded);
+
     });
+
 }
