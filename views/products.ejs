@@ -2,9 +2,13 @@
 
 <main>
 
-<% if(product){ %>
+<h1>Daftar Produk</h1>
 
-<h1><%= product.name %></h1>
+<% products.forEach(product=>{ %>
+
+<article>
+
+<h2><%= product.name %></h2>
 
 <p>Kategori : <%= product.category %></p>
 
@@ -12,11 +16,17 @@
 
 <p>Stok : <%= product.stock %></p>
 
-<% } else { %>
+<a href="/produk/<%= product.id %>">
 
-<h1>Produk tidak ditemukan</h1>
+Lihat Detail
 
-<% } %>
+</a>
+
+</article>
+
+<hr>
+
+<% }) %>
 
 </main>
 

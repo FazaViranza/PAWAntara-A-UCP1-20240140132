@@ -18,7 +18,23 @@
 
             <h1>Selamat Datang di Toko Sembako Ariesta</h1>
 
-            <p>Website UCP Sprint 1</p>
+            <p>Produk Unggulan</p>
+
+            <div>
+
+            <% products.forEach(product=>{ %>
+
+            <article>
+
+            <h3><%= product.name %></h3>
+
+            <p>Rp <%= product.price %></p>
+
+            </article>
+
+            <% }) %>
+
+            </div>
 
         </section>
 
