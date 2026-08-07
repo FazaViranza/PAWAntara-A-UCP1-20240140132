@@ -1,33 +1,51 @@
-<%- include("partials/navbar") %>
+<!DOCTYPE html>
+<html lang="en">
 
-<main>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk</title>
 
-<h1>Daftar Produk</h1>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
 
-<% products.forEach(product=>{ %>
+<body>
 
-<article>
+    <%- include("partials/navbar") %>
 
-<h2><%= product.name %></h2>
+    <main>
 
-<p>Kategori : <%= product.category %></p>
+        <section>
 
-<p>Harga : Rp <%= product.price %></p>
+            <h1>Daftar Produk</h1>
 
-<p>Stok : <%= product.stock %></p>
+            <% products.forEach(product => { %>
 
-<a href="/produk/<%= product.id %>">
+                <article>
 
-Lihat Detail
+                    <h2><%= product.name %></h2>
 
-</a>
+                    <p>Kategori : <%= product.category %></p>
 
-</article>
+                    <p>Harga : Rp <%= product.price %></p>
 
-<hr>
+                    <p>Stok : <%= product.stock %></p>
 
-<% }) %>
+                    <a href="/produk/<%= product.id %>">Lihat Detail</a>
 
-</main>
+                </article>
 
-<%- include("partials/footer") %>
+                <hr>
+
+            <% }) %>
+
+        </section>
+
+    </main>
+
+    <%- include("partials/footer") %>
+
+    <script src="/js/script.js"></script>
+
+</body>
+</html>

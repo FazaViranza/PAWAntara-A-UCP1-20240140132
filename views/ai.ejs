@@ -1,30 +1,43 @@
-<%- include("partials/navbar") %>
+<!DOCTYPE html>
+<html>
 
-<main>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tanya AI</title>
 
-<h1>Tanya AI</h1>
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    
+    <%- include("partials/navbar") %>
 
-<form>
+        <main>
 
-<label for="question">
+            <h1>Tanya AI</h1>
 
-Pertanyaan
+            <form>
 
-</label>
+                <label for="question">
 
-<input
-id="question"
-type="text"
-placeholder="Tulis pertanyaan">
+                Pertanyaan
 
-<button>
+                </label>
 
-Kirim
+        <input
+            id="question"
+            type="text"
+            placeholder="Tulis pertanyaan"
+            required>
 
-</button>
+        <button type="submit">Kirim</button>
 
-</form>
+        </form>
 
-</main>
+        </main>
 
-<%- include("partials/footer") %>
+    <%- include("partials/footer") %>
+
+    <script src="/js/script.js"></script>
+
+    </body>
+</html>
