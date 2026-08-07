@@ -17,9 +17,29 @@ app.get("/", (req, res) => {
 
 app.get("/produk", (req, res) => {
 
+    let filteredProducts = [...products];
+
+    const { kategori, search } = req.query;
+
+    if (kategori) {
+
+        filteredProducts = filteredProducts.filter(product =>
+            product.category.toLowerCase() === kategori.toLowerCase()
+        );
+
+    }
+
+    if (search) {
+
+        filteredProducts = filteredProducts.filter(product =>
+            product.name.toLowerCase().includes(search.toLowerCase())
+        );
+
+    }
+
     res.render("products", {
 
-        products
+        products: filteredProducts
 
     });
 
