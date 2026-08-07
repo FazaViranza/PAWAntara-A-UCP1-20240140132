@@ -1,13 +1,24 @@
 const express = require("express");
 const path = require("path");
+const users = require("./data/users");
 const products = require("./data/products");
+const session = require("express-session");
+const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(session({
+    secret: "ariesta-secret",
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.get("/", (req, res) => {
     res.render("home", {
@@ -81,6 +92,58 @@ app.get("/api/products", (req, res) => {
 
 });
 
+app.post("/api/login", (req, res) => {
+
+    const { username, password } = req.body;
+
+    const user = users.find(u =>
+        u.username === username &&
+        u.password === password
+    );
+
+    if (!user) {
+
+        return res.status(401).json({
+            status: "error",
+            message: "Username atau password salah"
+        });
+
+    }
+
+    req.session.user = user;
+
+    res.json({
+        status: "success",
+        message: "Login berhasil"
+    });
+
+});
+
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
+app.post("/api/logout", (req, res) => {
+
+    req.session.destroy(() => {
+
+        res.json({
+            status: "success",
+            message: "Logout berhasil"
+        });
+
+    });
+
+});
+
+app.get("/dashboard", authMiddleware, (req, res) => {
+    res.render("dashboard");
+});
+
 app.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
+});
+
+app.get("/login", (req, res) => {
+    res.render("login");
 });
