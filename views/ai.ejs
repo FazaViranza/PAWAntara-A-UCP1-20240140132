@@ -1,43 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tanya AI</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="/css/style.css">
-    </head>
-    
+    <title>Tanya AI</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
     <%- include("partials/navbar") %>
 
-        <main>
+    <main>
+
+        <section>
 
             <h1>Tanya AI</h1>
 
-            <form>
+            <div id="chatBox"></div>
 
-                <label for="question">
+            <form id="chatForm">
 
-                Pertanyaan
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="Tanyakan sesuatu..."
+                >
 
-                </label>
+                <button type="submit">
+                    Kirim
+                </button>
 
-        <input
-            id="question"
-            type="text"
-            placeholder="Tulis pertanyaan"
-            required>
+            </form>
 
-        <button type="submit">Kirim</button>
+        </section>
 
-        </form>
-
-        </main>
+    </main>
 
     <%- include("partials/footer") %>
 
-    <script src="/js/script.js"></script>
+    <script src="/js/ai.js"></script>
 
-    </body>
+</body>
+
 </html>

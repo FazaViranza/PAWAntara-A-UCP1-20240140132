@@ -153,6 +153,63 @@ app.delete("/api/products/:id", authMiddleware, (req, res) => {
 
 });
 
+app.post("/api/chat", (req, res) => {
+
+    const { message } = req.body;
+
+    if (!message || !message.trim()) {
+        return res.status(400).json({
+            status: "error",
+            message: "Pertanyaan wajib diisi"
+        });
+    }
+
+    const question = message.toLowerCase();
+
+    let reply;
+
+    if (
+        question.includes("jam buka") ||
+        question.includes("buka")
+    ) {
+        reply = "Toko Sembako Ariesta buka setiap hari pukul 08.00 - 21.00 WIB.";
+    }
+
+    else if (
+        question.includes("ongkir") ||
+        question.includes("antar") ||
+        question.includes("delivery")
+    ) {
+        reply = "Tersedia layanan antar. Ongkir menyesuaikan jarak pengantaran.";
+    }
+
+    else if (
+        question.includes("bayar") ||
+        question.includes("pembayaran")
+    ) {
+        reply = "Kami menerima pembayaran tunai dan transfer.";
+    }
+
+    else if (
+        question.includes("stok") ||
+        question.includes("tersedia")
+    ) {
+        reply = "Untuk mengecek stok produk, silakan lihat halaman Produk.";
+    }
+
+    else {
+        reply = "Maaf, saya belum memahami pertanyaan tersebut. Silakan tanyakan tentang jam buka, ongkir, pembayaran, atau stok.";
+    }
+
+    res.json({
+        status: "success",
+        data: {
+            reply
+        }
+    });
+
+});
+
 app.post("/api/login", (req, res) => {
 
     const { username, password } = req.body;
