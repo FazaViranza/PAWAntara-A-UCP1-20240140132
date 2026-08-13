@@ -23,12 +23,10 @@ async function loadProducts() {
                 <p>Stok: ${product.stock}</p>
 
                 <a href="/produk/${product.id}">
-                    Lihat Detail
+                    Lihat Detail →
                 </a>
 
             </article>
-
-            <hr>
 
         `;
 

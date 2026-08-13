@@ -265,6 +265,3 @@ app.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
 
-app.get("/login", (req, res) => {
-    res.render("login");
-});

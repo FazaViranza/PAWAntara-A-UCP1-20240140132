@@ -53,8 +53,6 @@ async function loadProducts() {
 
             </div>
 
-            <hr>
-
         `;
 
     });

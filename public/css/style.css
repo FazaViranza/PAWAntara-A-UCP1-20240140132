@@ -1,68 +1,470 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
+:root {
+    --primary: #9a4d16;
+    --primary-dark: #71350e;
+    --accent: #f3a847;
+    --cream: #fffaf4;
+    --card: #ffffff;
+    --text: #2b2118;
+    --muted: #806f62;
+    --border: #eaded1;
+    --danger: #c83b30;
+    --shadow: 0 10px 30px rgba(70, 40, 15, 0.07);
 }
 
-header{
-    background:#8B4513;
-    color:white;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
 }
 
-nav{
-    max-width:1200px;
-    margin:auto;
-    padding:15px 20px;
+/* =========================
+   NAVBAR
+========================= */
+
+header {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 20px rgba(70, 35, 10, 0.15);
 }
 
-.nav-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+nav {
+    max-width: 1180px;
+    margin: auto;
+    padding: 18px 24px;
 }
 
-.nav-menu{
-    display:none;
-    flex-direction:column;
-    list-style:none;
-    margin-top:15px;
-    gap:15px;
+.nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.nav-menu a{
-    color:white;
-    text-decoration:none;
+.nav-top h2 {
+    font-size: 21px;
+    letter-spacing: -0.3px;
 }
 
-.nav-menu.active{
-    display:flex;
+.nav-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin-top: -25px;
 }
 
-.menu-toggle{
-    display:block;
-    background:none;
-    border:none;
-    color:white;
-    font-size:28px;
-    cursor:pointer;
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0.92;
+    transition: 0.2s;
 }
 
-@media(min-width:768px){
+.nav-menu a:hover {
+    opacity: 1;
+    color: #ffe0b5;
+}
 
-    .menu-toggle{
-        display:none;
+.menu-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+main {
+    max-width: 1180px;
+    margin: auto;
+    padding: 55px 24px;
+    min-height: calc(100vh - 150px);
+}
+
+h1 {
+    font-size: 38px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+}
+
+h2 {
+    letter-spacing: -0.3px;
+}
+
+p {
+    color: var(--muted);
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    max-width: 1180px;
+    margin: auto;
+    padding: 25px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button,
+.btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 18px;
+    background: var(--primary);
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:hover,
+.btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+#logoutBtn {
+    background: #3c322b;
+    margin-top: 8px;
+}
+
+#logoutBtn:hover {
+    background: #28211d;
+}
+
+/* =========================
+   HOME
+========================= */
+
+main > section > p {
+    margin-bottom: 28px;
+}
+
+main > section > h1 {
+    max-width: 750px;
+}
+
+main > section > h1::after {
+    content: "";
+    display: block;
+    width: 55px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 20px;
+    margin-top: 18px;
+}
+
+main > section > div {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+main > section > div article {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: 0.2s ease;
+}
+
+main > section > div article:hover {
+    transform: translateY(-4px);
+}
+
+main > section > div article h3 {
+    margin-bottom: 8px;
+    font-size: 19px;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(154, 77, 22, 0.1);
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginForm {
+    max-width: 430px;
+    margin: 40px auto;
+}
+
+#loginForm label {
+    display: block;
+    margin: 13px 0 6px;
+    font-weight: 700;
+}
+
+#loginForm button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+#errorMessage {
+    color: var(--danger);
+    margin-top: 14px;
+    font-size: 14px;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+#productForm {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: start;
+}
+
+#productForm input {
+    margin: 0;
+}
+
+#productList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+#productList > div {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 21px;
+    box-shadow: var(--shadow);
+    transition: 0.2s ease;
+}
+
+#productList > div:hover {
+    transform: translateY(-3px);
+}
+
+#productList h3 {
+    margin-bottom: 8px;
+}
+
+#productList p {
+    margin-bottom: 3px;
+}
+
+#productList button {
+    margin-top: 15px;
+    margin-right: 5px;
+}
+
+#productList button:last-child {
+    background: var(--danger);
+}
+
+#productList button:last-child:hover {
+    background: #a82e26;
+}
+
+/* =========================
+   PUBLIC PRODUCTS
+========================= */
+
+#productList article {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin: 0;
+}
+
+#productList article h2 {
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+
+#productList article p {
+    margin-bottom: 3px;
+}
+
+#productList article a {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+#productList article a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+main > h1 {
+    margin-top: 30px;
+}
+
+main > p {
+    margin: 8px 0;
+}
+
+/* =========================
+   AI CHAT
+========================= */
+
+#chatBox {
+    max-width: 800px;
+    min-height: 300px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    margin: 25px 0 15px;
+    box-shadow: var(--shadow);
+}
+
+#chatBox p {
+    background: #f6eee5;
+    color: var(--text);
+    padding: 11px 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+#chatBox strong {
+    color: var(--primary);
+}
+
+#chatForm {
+    max-width: 800px;
+    display: flex;
+    gap: 10px;
+}
+
+#chatForm input {
+    margin: 0;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    #productForm {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .nav-menu{
-        display:flex;
-        flex-direction:row;
-        justify-content:flex-end;
-        margin-top:0;
-        gap:30px;
+    #productList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    main > section > div {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+
+    nav {
+        padding: 16px 18px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        margin-top: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    main {
+        padding: 35px 18px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    #productForm {
+        grid-template-columns: 1fr;
+    }
+
+    #productList,
+    main > section > div {
+        grid-template-columns: 1fr;
+    }
+
+    #chatForm {
+        flex-direction: column;
+    }
+
+    #chatForm button {
+        width: 100%;
+    }
 }
