@@ -66,6 +66,24 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
+    if (
+        !nameInput.value.trim() ||
+        !categoryInput.value.trim() ||
+        !priceInput.value ||
+        !stockInput.value
+    ) {
+        alert("Semua field produk wajib diisi");
+        return;
+    }
+
+    if (
+        Number(priceInput.value) < 0 ||
+        Number(stockInput.value) < 0
+    ) {
+        alert("Harga dan stok tidak boleh negatif");
+        return;
+    }
+
     const body = {
 
         name: nameInput.value,

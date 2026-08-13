@@ -4,6 +4,7 @@ const users = require("./data/users");
 const products = require("./data/products");
 const session = require("express-session");
 const authMiddleware = require("./middleware/authMiddleware");
+const loggerMiddleware = require("./middleware/loggerMiddleware");
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(loggerMiddleware);
 
 app.use(session({
     secret: "ariesta-secret",
