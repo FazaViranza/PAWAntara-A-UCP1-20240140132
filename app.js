@@ -27,33 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/produk", (req, res) => {
-
-    let filteredProducts = [...products];
-
-    const { kategori, search } = req.query;
-
-    if (kategori) {
-
-        filteredProducts = filteredProducts.filter(product =>
-            product.category.toLowerCase() === kategori.toLowerCase()
-        );
-
-    }
-
-    if (search) {
-
-        filteredProducts = filteredProducts.filter(product =>
-            product.name.toLowerCase().includes(search.toLowerCase())
-        );
-
-    }
-
-    res.render("products", {
-
-        products: filteredProducts
-
-    });
-
+    res.render("products");
 });
 
 app.get("/produk/:id", (req, res) => {
@@ -89,6 +63,93 @@ app.get("/tanya-ai", (req, res) => {
 app.get("/api/products", (req, res) => {
 
     res.json(products);
+
+});
+
+app.get("/api/products/:id", (req, res) => {
+
+    const id = parseInt(req.params.id);
+
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+
+        return res.status(404).json({
+            status: "error",
+            message: "Produk tidak ditemukan"
+        });
+
+    }
+
+    res.json(product);
+
+});
+
+app.post("/api/products", authMiddleware, (req, res) => {
+
+    const { name, category, price, stock } = req.body;
+
+    const newProduct = {
+        id: products.length + 1,
+        name,
+        category,
+        price: Number(price),
+        stock: Number(stock)
+    };
+
+    products.push(newProduct);
+
+    res.status(201).json({
+        status: "success",
+        data: newProduct
+    });
+
+});
+
+app.put("/api/products/:id", authMiddleware, (req, res) => {
+
+    const id = parseInt(req.params.id);
+
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+        return res.status(404).json({
+            status: "error",
+            message: "Produk tidak ditemukan"
+        });
+    }
+
+    product.name = req.body.name;
+    product.category = req.body.category;
+    product.price = Number(req.body.price);
+    product.stock = Number(req.body.stock);
+
+    res.json({
+        status: "success",
+        data: product
+    });
+
+});
+
+app.delete("/api/products/:id", authMiddleware, (req, res) => {
+
+    const id = parseInt(req.params.id);
+
+    const index = products.findIndex(p => p.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({
+            status: "error",
+            message: "Produk tidak ditemukan"
+        });
+    }
+
+    products.splice(index, 1);
+
+    res.json({
+        status: "success",
+        message: "Produk berhasil dihapus"
+    });
 
 });
 

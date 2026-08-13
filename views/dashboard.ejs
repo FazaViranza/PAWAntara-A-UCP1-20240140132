@@ -17,15 +17,53 @@
 
 <h1>Dashboard Admin</h1>
 
-<p>Selamat datang, Admin!</p>
-
 <button id="logoutBtn">
-    Logout
+Logout
 </button>
 
-<h2>Manajemen Produk</h2>
+<hr>
 
-<p>CRUD produk akan kita tambahkan di langkah berikutnya.</p>
+<h2>Tambah Produk</h2>
+
+<form id="productForm">
+
+<input
+id="name"
+placeholder="Nama Produk"
+required>
+
+<input
+id="category"
+placeholder="Kategori"
+required>
+
+<input
+id="price"
+type="number"
+placeholder="Harga"
+required>
+
+<input
+id="stock"
+type="number"
+placeholder="Stok"
+required>
+
+<button type="submit">
+
+Tambah Produk
+
+</button>
+
+</form>
+
+<hr>
+
+<h2>Daftar Produk</h2>
+
+<div id="productList">
+
+</div>
 
 </section>
 

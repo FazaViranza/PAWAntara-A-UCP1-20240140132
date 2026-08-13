@@ -19,25 +19,7 @@
 
             <h1>Daftar Produk</h1>
 
-            <% products.forEach(product => { %>
-
-                <article>
-
-                    <h2><%= product.name %></h2>
-
-                    <p>Kategori : <%= product.category %></p>
-
-                    <p>Harga : Rp <%= product.price %></p>
-
-                    <p>Stok : <%= product.stock %></p>
-
-                    <a href="/produk/<%= product.id %>">Lihat Detail</a>
-
-                </article>
-
-                <hr>
-
-            <% }) %>
+            <div id="productList"></div>
 
         </section>
 
@@ -45,6 +27,7 @@
 
     <%- include("partials/footer") %>
 
+    <script src="/js/products.js"></script>
     <script src="/js/script.js"></script>
 
 </body>
