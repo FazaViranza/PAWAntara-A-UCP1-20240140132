@@ -1,78 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
+
+    <title>Dashboard Admin - Toko Sembako Ariesta</title>
 
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 
-<%- include("partials/navbar") %>
+    <%- include("partials/navbar") %>
 
-<main>
+    <main class="dashboard-main">
 
-<section>
+        <!-- HEADER -->
+        <section class="dashboard-header">
 
-<h1>Dashboard Admin</h1>
+            <div>
+                <span class="dashboard-label">ADMIN PANEL</span>
 
-<button id="logoutBtn">
-Logout
-</button>
+                <h1>Dashboard</h1>
 
-<hr>
+                <p>
+                    Kelola produk, harga, dan stok Toko Sembako Ariesta.
+                </p>
+            </div>
 
-<h2>Tambah Produk</h2>
+            <button id="logoutBtn" class="logout-button">
+                Logout
+            </button>
 
-<form id="productForm">
+        </section>
 
-<input
-id="name"
-placeholder="Nama Produk"
-required>
 
-<input
-id="category"
-placeholder="Kategori"
-required>
+        <!-- PRODUCT FORM -->
+        <section class="dashboard-form-section">
 
-<input
-id="price"
-type="number"
-placeholder="Harga"
-required>
+            <div class="section-heading">
 
-<input
-id="stock"
-type="number"
-placeholder="Stok"
-required>
+                <div>
+                    <span class="section-label">PRODUCT MANAGEMENT</span>
 
-<button type="submit">
+                    <h2 id="formTitle">
+                        Tambah Produk
+                    </h2>
 
-Tambah Produk
+                    <p id="formDescription">
+                        Tambahkan produk baru ke dalam katalog toko.
+                    </p>
+                </div>
 
-</button>
+            </div>
 
-</form>
 
-<hr>
+            <form id="productForm" class="product-form">
 
-<h2>Daftar Produk</h2>
+                <div class="form-field">
 
-<div id="productList">
+                    <label for="name">
+                        Nama Produk
+                    </label>
 
-</div>
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Contoh: Beras Premium 5kg"
+                        required>
 
-</section>
+                </div>
 
-</main>
 
-<%- include("partials/footer") %>
+                <div class="form-field">
 
-<script src="/js/dashboard.js"></script>
-<script src="/js/script.js"></script>
+                    <label for="category">
+                        Kategori
+                    </label>
+
+                    <input
+                        id="category"
+                        type="text"
+                        placeholder="Contoh: Beras"
+                        required>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="price">
+                        Harga
+                    </label>
+
+                    <input
+                        id="price"
+                        type="number"
+                        placeholder="75000"
+                        min="0"
+                        required>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="stock">
+                        Stok
+                    </label>
+
+                    <input
+                        id="stock"
+                        type="number"
+                        placeholder="20"
+                        min="0"
+                        required>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        id="submitBtn">
+                        Tambah Produk
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelBtn"
+                        class="cancel-btn"
+                        hidden>
+                        Batal
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- PRODUCT LIST -->
+        <section class="dashboard-products">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">INVENTORY</span>
+
+                    <h2>Daftar Produk</h2>
+
+                    <p>
+                        Kelola produk yang tersedia di toko.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="productList" class="dashboard-product-grid"></div>
+
+        </section>
+
+    </main>
+
+
+    <%- include("partials/footer") %>
+
+
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/script.js"></script>
 
 </body>
+
 </html>

@@ -7,8 +7,17 @@ const logoutBtn = document.getElementById("logoutBtn");
 const form = document.getElementById("productForm");
 const productList = document.getElementById("productList");
 
+const formTitle = document.getElementById("formTitle");
+const formDescription = document.getElementById("formDescription");
+const submitBtn = document.getElementById("submitBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
 let editingId = null;
 
+
+// =========================
+// LOGOUT
+// =========================
 
 logoutBtn.addEventListener("click", async () => {
 
@@ -21,6 +30,10 @@ logoutBtn.addEventListener("click", async () => {
 });
 
 
+// =========================
+// LOAD PRODUCTS
+// =========================
+
 async function loadProducts() {
 
     const response = await fetch("/api/products");
@@ -29,29 +42,82 @@ async function loadProducts() {
 
     productList.innerHTML = "";
 
+    if (products.length === 0) {
+
+        productList.innerHTML = `
+            <div class="empty-products">
+                <h3>Belum ada produk</h3>
+                <p>Tambahkan produk pertama kamu menggunakan form di atas.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
     products.forEach(product => {
+
+        const formattedPrice = Number(product.price)
+            .toLocaleString("id-ID");
+
 
         productList.innerHTML += `
 
-            <div>
+            <article class="admin-product-card">
 
-                <h3>${product.name}</h3>
+                <div class="admin-product-top">
 
-                <p>${product.category}</p>
+                    <span class="admin-product-category">
+                        ${product.category}
+                    </span>
 
-                <p>Rp ${product.price}</p>
+                    <span class="admin-product-id">
+                        #${product.id}
+                    </span>
 
-                <p>Stock : ${product.stock}</p>
+                </div>
 
-                <button onclick="editProduct(${product.id})">
-                    Edit
-                </button>
 
-                <button onclick="deleteProduct(${product.id})">
-                    Delete
-                </button>
+                <h3>
+                    ${product.name}
+                </h3>
 
-            </div>
+
+                <div class="admin-product-price">
+                    Rp ${formattedPrice}
+                </div>
+
+
+                <div class="admin-product-stock">
+
+                    <span>
+                        Stok
+                    </span>
+
+                    <strong>
+                        ${product.stock}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-product-actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct(${product.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct(${product.id})">
+                        Hapus
+                    </button>
+
+                </div>
+
+            </article>
 
         `;
 
@@ -60,9 +126,14 @@ async function loadProducts() {
 }
 
 
+// =========================
+// FORM SUBMIT
+// =========================
+
 form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
+
 
     if (
         !nameInput.value.trim() ||
@@ -70,110 +141,236 @@ form.addEventListener("submit", async (e) => {
         !priceInput.value ||
         !stockInput.value
     ) {
-        alert("Semua field produk wajib diisi");
+
+        alert("Semua field produk wajib diisi.");
+
         return;
     }
+
 
     if (
         Number(priceInput.value) < 0 ||
         Number(stockInput.value) < 0
     ) {
-        alert("Harga dan stok tidak boleh negatif");
+
+        alert("Harga dan stok tidak boleh negatif.");
+
         return;
     }
 
+
     const body = {
 
-        name: nameInput.value,
+        name: nameInput.value.trim(),
 
-        category: categoryInput.value,
+        category: categoryInput.value.trim(),
 
-        price: priceInput.value,
+        price: Number(priceInput.value),
 
-        stock: stockInput.value
+        stock: Number(stockInput.value)
 
     };
 
 
-    if (editingId) {
+    let response;
 
-        await fetch(`/api/products/${editingId}`, {
 
-            method: "PUT",
+    // =========================
+    // EDIT MODE
+    // =========================
 
-            credentials: "same-origin",
+    if (editingId !== null) {
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        response = await fetch(
+            `/api/products/${editingId}`,
+            {
+                method: "PUT",
 
-            body: JSON.stringify(body)
+                credentials: "same-origin",
 
-        });
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-        editingId = null;
+                body: JSON.stringify(body)
+            }
+        );
+
+
+    // =========================
+    // ADD MODE
+    // =========================
 
     } else {
 
-        await fetch("/api/products", {
+        response = await fetch(
+            "/api/products",
+            {
+                method: "POST",
 
-            method: "POST",
+                credentials: "same-origin",
 
-            credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(body)
-
-        });
+                body: JSON.stringify(body)
+            }
+        );
 
     }
 
 
-    form.reset();
+    if (!response.ok) {
 
-    loadProducts();
+        const data = await response.json();
+
+        alert(data.message || "Terjadi kesalahan.");
+
+        return;
+    }
+
+
+    resetForm();
+
+    await loadProducts();
 
 });
 
 
+// =========================
+// EDIT PRODUCT
+// =========================
+
 async function editProduct(id) {
 
-    const response = await fetch(`/api/products/${id}`);
+    const response = await fetch(
+        `/api/products/${id}`
+    );
+
+
+    if (!response.ok) {
+
+        alert("Gagal mengambil data produk.");
+
+        return;
+    }
+
 
     const product = await response.json();
 
+
     nameInput.value = product.name;
+
     categoryInput.value = product.category;
+
     priceInput.value = product.price;
+
     stockInput.value = product.stock;
 
+
     editingId = id;
+
+
+    // Change form UI
+
+    formTitle.textContent = "Edit Produk";
+
+    formDescription.textContent =
+        `Sedang mengedit ${product.name}.`;
+
+    submitBtn.textContent = "Simpan Perubahan";
+
+    cancelBtn.hidden = false;
+
+
+    // Scroll to form
+
+    document
+        .querySelector(".dashboard-form-section")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
 
 }
 
 
+// =========================
+// CANCEL EDIT
+// =========================
+
+cancelBtn.addEventListener("click", () => {
+
+    resetForm();
+
+});
+
+
+// =========================
+// RESET FORM
+// =========================
+
+function resetForm() {
+
+    editingId = null;
+
+    form.reset();
+
+    formTitle.textContent = "Tambah Produk";
+
+    formDescription.textContent =
+        "Tambahkan produk baru ke dalam katalog toko.";
+
+    submitBtn.textContent = "Tambah Produk";
+
+    cancelBtn.hidden = true;
+
+}
+
+
+// =========================
+// DELETE PRODUCT
+// =========================
+
 async function deleteProduct(id) {
 
-    const confirmed = confirm("Yakin ingin menghapus produk ini?");
+    const confirmed = confirm(
+        "Yakin ingin menghapus produk ini?"
+    );
+
 
     if (!confirmed) {
         return;
     }
 
-    await fetch(`/api/products/${id}`, {
 
-        method: "DELETE",
+    const response = await fetch(
+        `/api/products/${id}`,
+        {
+            method: "DELETE",
+            credentials: "same-origin"
+        }
+    );
 
-        credentials: "same-origin"
 
-    });
+    if (!response.ok) {
 
-    loadProducts();
+        const data = await response.json();
+
+        alert(data.message || "Gagal menghapus produk.");
+
+        return;
+    }
+
+
+    await loadProducts();
 
 }
 
+
+// =========================
+// INITIAL LOAD
+// =========================
 
 loadProducts();
