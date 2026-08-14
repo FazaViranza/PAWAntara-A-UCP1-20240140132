@@ -1,37 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
-<link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        <%= product ? product.name : "Produk Tidak Ditemukan" %> - Toko Sembako Ariesta
+    </title>
+
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
-<%- include("partials/navbar") %>
+    <%- include("partials/navbar") %>
 
-<main>
+    <main>
 
-<% if(product){ %>
+        <% if (!product) { %>
 
-<h1><%= product.name %></h1>
+            <section class="detail-empty">
 
-<p>Kategori : <%= product.category %></p>
+                <h1>Produk Tidak Ditemukan</h1>
 
-<p>Harga : Rp <%= product.price %></p>
+                <p>
+                    Produk yang kamu cari tidak tersedia.
+                </p>
 
-<p>Stok : <%= product.stock %></p>
+                <a href="/produk" class="btn">
+                    ← Kembali ke Produk
+                </a>
 
-<% } else { %>
+            </section>
 
-<h1>Produk tidak ditemukan</h1>
+        <% } else { %>
 
-<% } %>
+            <a href="/produk" class="back-link">
+                ← Kembali ke Produk
+            </a>
 
-</main>
+            <section class="product-detail">
 
-<%- include("partials/footer") %>
+                <div class="product-detail-content">
 
-<script src="/js/script.js"></script>
+                    <span class="product-category">
+                        <%= product.category %>
+                    </span>
+
+                    <h1>
+                        <%= product.name %>
+                    </h1>
+
+                    <p class="product-description">
+                        Produk sembako berkualitas dari Toko Sembako Ariesta.
+                    </p>
+
+                    <div class="product-price">
+                        Rp <%= product.price.toLocaleString("id-ID") %>
+                    </div>
+
+                    <div class="product-stock">
+
+                        <% if (product.stock > 0) { %>
+
+                            <span class="stock-badge available">
+                                ✓ Stok tersedia
+                            </span>
+
+                            <span>
+                                <%= product.stock %> unit tersedia
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="stock-badge unavailable">
+                                Stok habis
+                            </span>
+
+                        <% } %>
+
+                    </div>
+
+                    <div class="product-detail-actions">
+
+                        <a href="/produk" class="btn">
+                            Lihat Produk Lain
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        <% } %>
+
+    </main>
+
+    <%- include("partials/footer") %>
+
+    <script src="/js/script.js"></script>
 
 </body>
+
 </html>

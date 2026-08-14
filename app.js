@@ -325,45 +325,67 @@ app.post("/api/chat", (req, res) => {
 
 app.post("/api/login", async (req, res) => {
 
-    const result = await db.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username]
-    );
+    try {
 
-    if (result.rows.length === 0) {
+        const { username, password } = req.body;
 
-        return res.status(401).json({
+        if (!username || !password) {
+            return res.status(400).json({
+                status: "error",
+                message: "Username dan password wajib diisi"
+            });
+        }
+
+        const result = await db.query(
+            "SELECT * FROM users WHERE username = $1",
+            [username]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(401).json({
+                status: "error",
+                message: "Username atau password salah"
+            });
+
+        }
+
+        const user = result.rows[0];
+
+        const passwordMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
+
+        if (!passwordMatch) {
+
+            return res.status(401).json({
+                status: "error",
+                message: "Username atau password salah"
+            });
+
+        }
+
+        req.session.user = {
+            id: user.id,
+            username: user.username
+        };
+
+        res.json({
+            status: "success",
+            message: "Login berhasil"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
             status: "error",
-            message: "Username atau password salah"
+            message: "Gagal melakukan login"
         });
 
     }
-
-    const user = result.rows[0];
-
-    const passwordMatch = await bcrypt.compare(
-        password,
-        user.password
-    );
-
-    if (!passwordMatch) {
-
-        return res.status(401).json({
-            status: "error",
-            message: "Username atau password salah"
-        });
-
-    }
-
-    req.session.user = {
-        id: user.id,
-        username: user.username
-    };
-
-    res.json({
-        status: "success",
-        message: "Login berhasil"
-    });
 
 });
 
