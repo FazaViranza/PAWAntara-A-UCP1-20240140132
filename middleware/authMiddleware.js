@@ -1,16 +1,9 @@
-function authMiddleware(req, res, next) {
+module.exports = (req, res, next) => {
 
     if (!req.session.user) {
-
-        return res.status(401).json({
-            status: "error",
-            message: "Unauthorized, silakan login terlebih dahulu"
-        });
-
+        return res.redirect("/login?message=login-required");
     }
 
     next();
 
-}
-
-module.exports = authMiddleware;
+};
